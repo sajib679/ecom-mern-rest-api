@@ -1,0 +1,36 @@
+{
+  "name": "apiserver",
+  "version": "1.0.0",
+  "description": "api server for Ecommerce",
+ 
+  "main": "app.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "express-validator": "^6.6.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.11",
+    "mongoose-findorcreate": "^3.0.0",
+    "multer": "^1.4.2",
+    "shortid": "^2.2.15",
+    "slugify": "^1.4.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "MERN"
+  ],
+  "author": "Sajibul Islam",
+  "license": "ISC",
+  "engines": {
+    "node": "14.17.0"
+  }
+}

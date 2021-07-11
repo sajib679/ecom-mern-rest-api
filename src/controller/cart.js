@@ -39,7 +39,6 @@ exports.addItemToCart = (req, res) => {
           };
         }
         promiseArray.push(runUpdate(condition, update));
-        
       });
       Promise.all(promiseArray)
         .then((response) => res.status(201).json({ response }))
@@ -73,7 +72,9 @@ exports.getCartItems = (req, res) => {
           cartItems[item.product._id.toString()] = {
             _id: item.product._id.toString(),
             name: item.product.name,
-            img: item.product.productPictures[0].img,
+            img: item.product.productPictures
+              ? item.product.productPictures[0].img
+              : null,
             price: item.product.price,
             qty: item.quantity,
           };

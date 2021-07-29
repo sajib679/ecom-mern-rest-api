@@ -2,16 +2,38 @@ const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const shortid = require("shortid");
 const path = require("path");
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.join(path.dirname(__dirname), "uploads"));
-  },
-  filename: function (req, file, cb) {
-    cb(null, shortid.generate() + "-" + file.originalname);
+const { GridFsStorage } = require("multer-gridfs-storage");
+
+const storage = new GridFsStorage({
+  url: process.env.DATABASE_CREDENTIAL,
+  options: { useNewUrlParser: true, useUnifiedTopology: true },
+  file: (req, file) => {
+    const match = ["image/png", "image/jpeg"];
+
+    if (match.indexOf(file.mimetype) === -1) {
+      const filename = `${Date.now()}-${file.originalname}`;
+      return filename;
+    }
+
+    return {
+      bucketName: "upload",
+      filename: `${Date.now()}-${file.originalname}`,
+    };
   },
 });
 
-exports.upload = multer({ storage });
+exports.upload = multer({ storage: storage });
+
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, path.join(path.dirname(__dirname), "uploads"));
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, shortid.generate() + "-" + file.originalname);
+//   },
+// });
+
+// exports.upload = multer({ storage });
 
 exports.requireSignIn = (req, res, next) => {
   if (req.headers.authorization) {

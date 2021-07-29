@@ -1,26 +1,6 @@
 const Category = require("../models/category");
 var slugify = require("slugify");
-
-const createCategory = (categories, parentId = null) => {
-  const categoryList = [];
-  let category;
-  if (parentId == null) {
-    category = categories.filter((cat) => cat.parentId == undefined);
-  } else {
-    category = categories.filter((cat) => cat.parentId == parentId);
-  }
-  for (const cat of category) {
-    categoryList.push({
-      _id: cat._id,
-      name: cat.name,
-      slug: cat.slug,
-      parentId: cat.parentId,
-      type: cat.type,
-      children: createCategory(categories, cat._id),
-    });
-  }
-  return categoryList;
-};
+const { createNestedCategory } = require("../helper");
 
 exports.addCategory = (req, res) => {
   let categoryImage;
@@ -31,8 +11,9 @@ exports.addCategory = (req, res) => {
   };
 
   if (req.file) {
-    categoryImage = "/public/" + req.file.filename;
-    categoryObj.categoryImage = categoryImage;
+    const name = req.file.filename;
+    const link = `${process.env.DOMAIN}/upload/${req.file.filename}`;
+    categoryObj.categoryImage = { name, link };
   }
 
   if (req.body.parentId) {
@@ -54,7 +35,7 @@ exports.getAllCategory = (req, res) => {
     if (error) {
       return res.status(400).json({ error });
     } else {
-      const categoryList = createCategory(categories);
+      const categoryList = createNestedCategory(categories);
       return res.status(200).json({ categoryList });
     }
   });

@@ -1,21 +1,14 @@
 require("dotenv").config();
-
 const express = require("express");
-const mongoose = require("mongoose");
+const connectDB = require("./src/db");
 const path = require("path");
 const cors = require("cors");
-
 const app = express();
 app.use(express.json());
 app.use(cors());
 app.options("*", cors());
 
-mongoose.connect(process.env.DATABASE_CREDENTIAL, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
-});
+connectDB();
 
 app.use("/public", express.static(path.join(__dirname, "/src/uploads")));
 
@@ -33,7 +26,9 @@ const pageRoutes = require("./src/routes/admin/page");
 const addressRoutes = require("./src/routes/address");
 const orderRoutes = require("./src/routes/order");
 const adminOrderRoute = require("./src/routes/admin/order.routes");
+const uploadRoutes = require("./src/routes/upload");
 
+app.use("/", uploadRoutes);
 app.use("/api", authRoutes);
 app.use("/api", adminRoutes);
 app.use("/api", categoryRoutes);

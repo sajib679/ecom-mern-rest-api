@@ -10,7 +10,7 @@ const {
   updateCategory,
   deleteCategory,
 } = require("../controller/category");
-const multer = require("multer");
+
 const router = express.Router();
 
 router.post(

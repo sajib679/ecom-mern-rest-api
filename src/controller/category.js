@@ -43,7 +43,6 @@ exports.getAllCategory = (req, res) => {
 
 exports.updateCategory = async (req, res) => {
   const { _id, name, parentId, type } = req.body;
-  console.log(req.body);
   const updatedCategories = [];
   if (name instanceof Array) {
     for (let i = 0; i < name.length; i++) {
@@ -85,7 +84,6 @@ exports.updateCategory = async (req, res) => {
 exports.deleteCategory = async (req, res) => {
   const ids = req.body;
   for (let i = 0; i < ids.length; i++) {
-    console.log(ids[i]);
     await Category.findOneAndDelete(ids[i]).exec();
   }
   return res.status(200).json({ data: ids });

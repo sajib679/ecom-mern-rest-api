@@ -21,8 +21,6 @@ exports.createPage = (req, res) => {
       return res.status(200).json({ error });
     }
     if (page) {
-      console.log(req.body.category);
-
       Page.findOneAndUpdate({ category: req.body.category }, req.body, {
         new: true,
       }).exec((error, updatedPage) => {

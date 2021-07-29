@@ -61,7 +61,6 @@ exports.addItemToCart = (req, res) => {
 };
 
 exports.getCartItems = (req, res) => {
-  console.log(req.user._id);
   Cart.findOne({ user: req.user._id })
     .populate("cartItems.product", "_id name price productPictures")
     .exec((error, cart) => {

@@ -10,10 +10,8 @@ conn.once("open", function () {
 });
 
 exports.getFiles = async (req, res) => {
-  console.log(req.params);
   try {
     const file = await gfs.files.findOne({ filename: req.params.filename });
-    console.log(file);
     const readStream = gfs.createReadStream(file.filename);
     readStream.pipe(res);
   } catch (error) {

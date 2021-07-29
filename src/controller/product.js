@@ -68,7 +68,6 @@ exports.getProductBySlug = (req, res) => {
 
 exports.getProductById = (req, res) => {
   const { productId } = req.params;
-  console.log(productId);
   Product.findOne({ _id: productId })
     .populate("category", "name")
     .exec((error, product) => {
@@ -84,7 +83,6 @@ exports.getProductById = (req, res) => {
 
 exports.searchProduct = (req, res) => {
   const { searchTerm } = req.params;
-  console.log(searchTerm);
   const regex2 = new RegExp(`${searchTerm}`, "i");
   Product.find({ name: regex2 })
     .select("_id name slug price productPictures")
@@ -103,7 +101,6 @@ exports.searchProduct = (req, res) => {
 
 exports.updateProduct = (req, res) => {
   const { _id, name, price, description, quantity, category } = req.body;
-  console.log(_id, name, price, description, quantity, category);
   let productPictures = [];
   if (req.files.length > 0) {
     productPictures = req.files.map((file) => {

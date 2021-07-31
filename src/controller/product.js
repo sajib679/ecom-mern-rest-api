@@ -1,16 +1,15 @@
 const Product = require("../models/product");
 const Category = require("../models/category");
 const slugify = require("slugify");
-const { find } = require("../models/product");
 
 exports.addProduct = (req, res) => {
   const { name, price, description, quantity, category } = req.body;
   let productPictures = [];
-  if (req.files.length > 0) {
+  if (req.files) {
     productPictures = req.files.map((file) => {
       return {
         img: file.filename,
-        link: `${process.env.DOMAIN}/upload/${item.filename}`,
+        link: `${process.env.DOMAIN}/upload/${file.filename}`,
       };
     });
   }
@@ -105,7 +104,7 @@ exports.searchProduct = (req, res) => {
 exports.updateProduct = (req, res) => {
   const { _id, name, price, description, quantity, category } = req.body;
   let productPictures = [];
-  if (req.files.length > 0) {
+  if (req.files) {
     productPictures = req.files.map((file) => {
       return { img: file.filename };
     });

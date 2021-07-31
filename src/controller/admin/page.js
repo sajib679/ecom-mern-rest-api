@@ -3,14 +3,16 @@ exports.createPage = (req, res) => {
   const { bannersImage, productsImage } = req.files;
   if (bannersImage.length > 0) {
     req.body.bannersImage = bannersImage.map((item, index) => ({
-      img: `/public/${item.filename}`,
+      img: item.filename,
+      link: `${process.env.DOMAIN}/upload/${item.filename}`,
       navigateTo: `/bannerClicked?categoryId=${req.body.category}&type=${req.body.type}`,
     }));
   }
 
   if (productsImage.length > 0) {
     req.body.productsImage = productsImage.map((item, index) => ({
-      img: `/public/${item.filename}`,
+      img: item.filename,
+      link: `${process.env.DOMAIN}/upload/${item.filename}`,
       navigateTo: `/productClicked?categoryId=${req.body.category}&type=${req.body.type}`,
     }));
   }

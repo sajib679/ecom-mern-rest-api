@@ -30,7 +30,7 @@ const productSchema = new mongoose.Schema(
       type: Number,
     },
 
-    productPictures: [{ img: { type: String } }],
+    productPictures: [{ img: { type: String }, link: { type: String } }],
     reviews: [
       {
         userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },

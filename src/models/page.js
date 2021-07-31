@@ -15,6 +15,7 @@ var pageSchema = new mongoose.Schema(
     bannersImage: [
       {
         img: { type: String },
+        link: { type: String },
         navigateTo: { type: String },
       },
     ],
@@ -22,6 +23,7 @@ var pageSchema = new mongoose.Schema(
     productsImage: [
       {
         img: { type: String },
+        link: { type: String },
         navigateTo: { type: String },
       },
     ],

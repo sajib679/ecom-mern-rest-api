@@ -8,7 +8,10 @@ exports.addProduct = (req, res) => {
   let productPictures = [];
   if (req.files.length > 0) {
     productPictures = req.files.map((file) => {
-      return { img: file.filename };
+      return {
+        img: file.filename,
+        link: `${process.env.DOMAIN}/upload/${item.filename}`,
+      };
     });
   }
   const product = new Product({

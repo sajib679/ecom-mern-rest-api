@@ -30,7 +30,7 @@ const orderRoutes = require("./src/routes/order");
 const bannerRoutes = require("./src/routes/banner");
 const uploadRoutes = require("./src/routes/upload");
 
-app.use("/", uploadRoutes);
+app.use("/api", uploadRoutes);
 app.use("/api", authRoutes);
 app.use("/api", adminRoutes);
 app.use("/api", categoryRoutes);

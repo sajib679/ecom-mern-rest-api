@@ -102,7 +102,8 @@ exports.searchProduct = (req, res) => {
 };
 
 exports.updateProduct = (req, res) => {
-  const { _id, name, price, description, quantity, category } = req.body;
+  const { _id, name, price, description, quantity, category, imageId } =
+    req.body;
   let productPictures = [];
   if (req.files) {
     productPictures = req.files.map((file) => {
@@ -118,9 +119,9 @@ exports.updateProduct = (req, res) => {
       description,
       quantity,
       category,
-      $set: { productPictures: productPictures },
+      $push: { productPictures: { $each: productPictures } },
     },
-    { new: true, useFindAndModify: false }
+    { new: true, upsert: true, useFindAndModify: false }
   ).exec((error, updatedProduct) => {
     if (error) {
       return res.status(400).json({ error });
@@ -134,14 +135,18 @@ exports.updateProduct = (req, res) => {
   });
 };
 
-//  {
-//       $set: { name: name },
-//       $set: {
-//         slug: slugify(name),
-//       },
-//       $set: { price: price },
-//       $set: { description: description },
-//       $set: { quantity: quantity },
-//       $set: { category: category },
-//       $set: { productPictures: productPictures },
-//     },
+exports.deleteProductImage = (req, res) => {
+  const { productId, imageId } = req.body;
+
+  if (imageId) {
+    Product.findByIdAndUpdate(
+      { _id: productId },
+      {
+        $pull: { productPictures: { _id: imageId } },
+      },
+      { new: true }
+    )
+      .then((productPictures) => console.log(productPictures))
+      .catch((err) => console.log(err));
+  }
+};

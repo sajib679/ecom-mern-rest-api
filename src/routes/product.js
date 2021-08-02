@@ -10,6 +10,7 @@ const {
   getProductById,
   searchProduct,
   updateProduct,
+  deleteProductImage,
 } = require("../controller/product");
 const router = express.Router();
 
@@ -28,6 +29,14 @@ router.post(
   upload.array("productPicture"),
   updateProduct
 );
+
+router.patch(
+  "/product/update",
+  requireSignIn,
+  adminMiddleware,
+  deleteProductImage
+);
+
 router.get("/product/:slug", getProductBySlug);
 router.get("/p/product/:productId", getProductById);
 router.get("/search/:searchTerm", searchProduct);

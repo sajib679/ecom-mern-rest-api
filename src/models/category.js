@@ -14,7 +14,7 @@ var categorySchema = new mongoose.Schema(
     },
     type: { type: String },
     categoryImage: {
-      name: String,
+      img: String,
       link: String,
     },
     parentId: {

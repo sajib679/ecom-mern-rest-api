@@ -11,9 +11,9 @@ exports.addCategory = (req, res) => {
   };
 
   if (req.file) {
-    const name = req.file.filename;
+    const img = req.file.filename;
     const link = `${process.env.DOMAIN}/upload/${req.file.filename}`;
-    categoryObj.categoryImage = { name, link };
+    categoryObj.categoryImage = { img, link };
   }
 
   if (req.body.parentId) {
@@ -36,13 +36,14 @@ exports.getAllCategory = (req, res) => {
       return res.status(400).json({ error });
     } else {
       const categoryList = createNestedCategory(categories);
-      return res.status(200).json({ categoryList });
+      return res.status(200).json({ categoryList, categories });
     }
   });
 };
 
 exports.updateCategory = async (req, res) => {
-  const { _id, name, parentId, type } = req.body;
+  const { _id, name, parentId, type, imageName } = req.body;
+  console.log(imageName);
   const updatedCategories = [];
   if (name instanceof Array) {
     for (let i = 0; i < name.length; i++) {
@@ -54,6 +55,17 @@ exports.updateCategory = async (req, res) => {
       if (parentId[i] !== "") {
         category.parentId = parentId[i];
       }
+
+      if (imageName[i] !== "undefined") {
+        console.log("imageName:", imageName[i]);
+
+        const file = req.files.filter((file) => {
+          return file.originalname === imageName[i];
+        });
+        console.log(file[0]?.filename);
+        category.categoryImage = { img: file[0]?.filename, link: "" };
+      }
+
       const updatedCategory = await Category.findOneAndUpdate(
         { _id: _id[i] },
         category,

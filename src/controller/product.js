@@ -146,7 +146,7 @@ exports.deleteProductImage = (req, res) => {
       },
       { new: true }
     )
-      .then((productPictures) => console.log(productPictures))
-      .catch((err) => console.log(err));
+      .then((productPictures) => res.status(200).json("succes"))
+      .catch((err) => res.status(400).json("failed"));
   }
 };

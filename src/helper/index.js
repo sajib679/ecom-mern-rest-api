@@ -13,6 +13,7 @@ const createNestedCategory = (categories, parentId = null) => {
       slug: cat.slug,
       parentId: cat.parentId,
       type: cat.type,
+      categoryImage: cat.categoryImage,
       children: createNestedCategory(categories, cat._id),
     });
   }

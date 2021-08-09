@@ -3,8 +3,6 @@ var slugify = require("slugify");
 const { createNestedCategory } = require("../helper");
 
 exports.addCategory = (req, res) => {
-  let categoryImage;
-
   const categoryObj = {
     name: req.body.name,
     slug: slugify(req.body.name),
